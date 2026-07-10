@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- Jeu de données de test pour Arcadia
 -- À exécuter après create_arcadia.sql, sur une base vide
 

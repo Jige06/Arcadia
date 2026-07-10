@@ -5,11 +5,22 @@ session_start();
 // Autoloader de Composer (pour mongodb/mongodb)
 require_once __DIR__ . '/../vendor/autoload.php';
 
-// Chargement des variables d'environnement
-$env = parse_ini_file(__DIR__ . '/../.env', false, INI_SCANNER_RAW);
-foreach ($env as $key => $value) {
-    if (!isset($_ENV[$key])) {
-        $_ENV[$key] = $value;
+// Chargement des variables d'environnement depuis .env (développement local)
+if (file_exists(__DIR__ . '/../.env')) {
+    $env = parse_ini_file(__DIR__ . '/../.env', false, INI_SCANNER_RAW);
+    foreach ($env as $key => $value) {
+        if (!isset($_ENV[$key])) {
+            $_ENV[$key] = $value;
+        }
+    }
+}
+
+// En environnement Docker, les vraies variables d'environnement du conteneur
+// (définies dans docker-compose.yml) prennent le pas sur le fichier .env
+foreach (['DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASSWORD', 'MONGO_HOST', 'MONGO_PORT', 'MONGO_DB'] as $cle) {
+    $valeur = getenv($cle);
+    if ($valeur !== false) {
+        $_ENV[$cle] = $valeur;
     }
 }
 
