@@ -25,11 +25,11 @@
         À partir de la taille "md" (tablette/desktop), redevient un simple bloc toujours visible.
     -->
     <nav class="offcanvas-md offcanvas-start bg-success text-white" tabindex="-1" id="sidebarMenu" style="width: 260px;">
-        <div class="offcanvas-header">
-            <a href="/" class="text-white text-decoration-none fs-4 fw-bold offcanvas-title">Arcadia</a>
+        <div class="d-flex justify-content-between align-items-center p-3">
+            <a href="/" class="text-white text-decoration-none fs-3 fw-bold">ARCADIA</a>
             <button type="button" class="btn-close btn-close-white d-md-none" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu"></button>
         </div>
-        <div class="offcanvas-body d-md-flex flex-column p-3 pt-md-0">
+        <div class="d-md-flex flex-column px-3">
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
                     <a href="/" class="nav-link text-white">Accueil</a>
