@@ -9,7 +9,7 @@ class HabitatRepository
         $this->pdo = Database::getInstance()->getConnection();
     }
 
-    // Récupère tous les habitats avec leurs images, pour la vue liste (US4)
+    // Récupère tous les habitats avec leurs images, pour la vue liste
     public function findAll()
     {
         $sql = "SELECT h.habitat_id, h.nom, h.description, h.commentaire_habitat, i.chemin
@@ -45,11 +45,13 @@ class HabitatRepository
         return array_values($habitats);
     }
 
-    // Récupère un habitat précis avec ses animaux (et la race de chacun), pour le détail dynamique (US4 + C4)
+    // Récupère un habitat précis avec ses animaux (et la race de chacun), pour le détail dynamique
     public function findById($habitatId)
     {
         // 1. L'habitat lui-même
-        $sql = "SELECT habitat_id, nom, description, commentaire_habitat FROM HABITAT WHERE habitat_id = :id";
+        $sql = "SELECT habitat_id, nom, description, commentaire_habitat
+        FROM HABITAT
+        WHERE habitat_id = :id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['id' => $habitatId]);
         $ligneHabitat = $stmt->fetch();
@@ -85,5 +87,24 @@ class HabitatRepository
         $habitat->setAnimaux($animaux);
 
         return $habitat;
+    }
+
+    // Récupère un animal précis par son Id
+    public function findAnimalById($animalId)
+    {
+        $sql = "SELECT animal_id, prenom FROM ANIMAL WHERE animal_id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['id' => $animalId]);
+        $ligne = $stmt->fetch();
+ 
+        if (!$ligne) {
+            return null;
+        }
+ 
+        $animal = new Animal();
+        $animal->setAnimalId($ligne['animal_id']);
+        $animal->setPrenom($ligne['prenom']);
+ 
+        return $animal;
     }
 }

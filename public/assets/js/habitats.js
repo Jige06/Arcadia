@@ -31,7 +31,7 @@ function afficherDetailHabitat(donnees) {
 
         // Au clic sur un animal précis : incrémente sa statistique de consultation (US11)
         item.addEventListener('click', function () {
-            enregistrerConsultation(animal.id, animal.prenom);
+            enregistrerConsultation(animal.id);
         });
 
         listeAnimaux.appendChild(item);
@@ -41,14 +41,11 @@ function afficherDetailHabitat(donnees) {
     modal.show();
 }
 
-function enregistrerConsultation(animalId, prenomAnimal) {
+function enregistrerConsultation(animalId) {
     fetch('/consultation', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            animal_id: animalId,
-            prenom: prenomAnimal
-        })
+        body: JSON.stringify({ animal_id: animalId })
     }).catch(function (erreur) {
         console.error('Erreur lors de l\'enregistrement de la consultation :', erreur);
     });

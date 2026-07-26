@@ -58,19 +58,26 @@ class HabitatController extends Controller
     {
         $donnees = json_decode(file_get_contents('php://input'), true);
         $animalId = $donnees['animal_id'] ?? null;
-        $prenomAnimal = $donnees['prenom'] ?? null;
 
-        if ($animalId === null || $prenomAnimal === null) {
+        if ($animalId === null || !is_numeric($animalId)) {
             http_response_code(400);
-            echo json_encode(['erreur' => 'Données manquantes']);
+            echo json_encode(['erreur' => 'Identifiant invalide']);
+            return;
+        }
+
+        $repository = new HabitatRepository();
+        $animal = $repository->findAnimalById($animalId);
+
+        if ($animal === null) {
+            http_response_code(404);
+            echo json_encode(['erreur' => 'Animal non trouvé']);
             return;
         }
 
         try {
             $statistiqueRepository = new StatistiqueRepository();
-            $statistiqueRepository->incrementerConsultation($animalId, $prenomAnimal);
+            $statistiqueRepository->incrementerConsultation($animal->getAnimalId(), $animal->getPrenom());
         } catch (\Throwable $e) {
-            // Une statistique ratée ne doit jamais faire planter la navigation du visiteur
             error_log('Erreur MongoDB (consultation animal) : ' . $e->getMessage());
         }
 
