@@ -4,9 +4,11 @@
 <div class="row g-4 mt-2">
     <?php foreach ($habitats as $habitat): ?>
         <div class="col-md-4">
-            <div class="card habitat-card h-100" style="cursor: pointer;" data-habitat-id="<?= $habitat->getHabitatId() ?>">
+            <div class="card habitat-card h-100" style="cursor: pointer;"
+                data-habitat-id="<?= $habitat->getHabitatId() ?>">
                 <?php if (!empty($habitat->getImages())): ?>
-                    <img src="<?= htmlspecialchars($habitat->getImages()[0]) ?>" class="card-img-top" alt="<?= htmlspecialchars($habitat->getNom()) ?>">
+                    <img src="<?= htmlspecialchars($habitat->getImages()[0]) ?>"
+                        class="card-img-top" alt="<?= htmlspecialchars($habitat->getNom()) ?>">
                 <?php endif; ?>
                 <div class="card-body">
                     <h2 class="h5 card-title"><?= htmlspecialchars($habitat->getNom()) ?></h2>
